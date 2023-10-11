@@ -1,0 +1,13 @@
+version: '3'
+services:
+  stock-server:
+    image: stock-server
+    ports:
+      - "5000:5000"
+    # Add any necessary configuration options for your server here
+
+  stock-client:
+    image: stock-client
+    depends_on:
+      - stock-server
+    command: sh -c "sleep 10 && python client.py"  # Add a sleep delay before starting the client

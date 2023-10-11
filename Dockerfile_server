@@ -1,0 +1,20 @@
+# FROM python:3.6-alpine
+# ADD . /code
+# WORKDIR /code
+# RUN pip install -r requirements.txt
+# CMD ["python", "app.py"]
+
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY server.py /app
+
+# Install required Python packages
+RUN pip install rpyc yfinance
+
+# Run the server script when the container launches
+CMD ["python", "server.py"]
