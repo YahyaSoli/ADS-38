@@ -10,7 +10,7 @@ class StockPriceService(rpyc.Service):
 
     def exposed_get_stock_price(self, symbol):
         stock_data = yf.Ticker(symbol)
-        current_price = stock_data.history(period='1d')['Close'][0]
+        current_price = 10#stock_data.history(period='1d')["Close"][0]
         return f"{symbol}: {current_price}"
 
 if __name__ == "__main__":

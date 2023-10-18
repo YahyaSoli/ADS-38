@@ -2,12 +2,17 @@ version: '3'
 services:
   stock-server:
     image: stock-server
-    ports:
-      - "5000:5000"
-    # Add any necessary configuration options for your server here
+    deploy:
+      replicas: 3
 
   stock-client:
     image: stock-client
     depends_on:
+      - nginx-load-balancer
+
+  nginx-load-balancer:
+    image: nginx
+    volumes:
+      - ./load_balancer:/etc/nginx/conf.d
+    depends_on:
       - stock-server
-    command: sh -c "sleep 10 && python client.py"  # Add a sleep delay before starting the client
