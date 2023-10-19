@@ -1,2 +1,3 @@
-flask
-redis
+# - deploy the three servers as seperate ones running on different ip addresses
+# - follow the description of the nginx.conf 
+# ex: ip: 172.20:5000, 172.21:5000, 172.22:5000, ...etc
