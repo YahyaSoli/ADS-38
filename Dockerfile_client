@@ -11,4 +11,4 @@ COPY client.py /app
 RUN pip install rpyc yfinance
 
 # Run the client script when the container launches
-CMD ["python", "client.py"]
+CMD ["python", "-u", "client.py"]

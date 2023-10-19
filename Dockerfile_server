@@ -17,4 +17,4 @@ COPY server.py /app
 RUN pip install rpyc yfinance
 
 # Run the server script when the container launches
-CMD ["python", "server.py"]
+CMD ["python", "-u", "server.py"]

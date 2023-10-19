@@ -2,23 +2,17 @@ version: '3'
 services:
   stock-server:
     image: stock-server
-    ports:
-      - "5000"
     deploy:
-      replicas: 3  # Number of replicas
-    # Add any necessary configuration options for your server here
+      replicas: 3
 
   stock-client:
     image: stock-client
     depends_on:
-      - stock-server
-    command: sh -c "sleep 10 && python client.py"  # Add a sleep delay before starting the client
+      - nginx-load-balancer
 
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"  # Map port 80 on the host to port 80 in the container (assuming your nginx.conf uses port 80)
+  nginx-load-balancer:
+    image: nginx
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf  # Mount nginx.conf from the host into the container
+      - ./load_balancer:/etc/nginx/conf.d
     depends_on:
       - stock-server

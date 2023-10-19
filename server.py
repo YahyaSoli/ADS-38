@@ -5,8 +5,8 @@ class StockPriceService(rpyc.Service):
     def on_connect(self, conn):
         print("Client connected.")
 
-    def on_disconnect(self, conn):
-        print("Client disconnected.")
+    # def on_disconnect(self, conn):
+    #     print("Client disconnected.")
 
     def exposed_get_stock_price(self, symbol):
         stock_data = yf.Ticker(symbol)
