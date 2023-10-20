@@ -1,6 +1,7 @@
 import rpyc
 import time
 
+
 class StockPriceClient:
     def get_stock_price(self, symbol):
         attempts = 0
@@ -14,6 +15,7 @@ class StockPriceClient:
                 conn = rpyc.connect("stock-server", 8080)  # Use the service name from docker-compose.yml
                 price = conn.root.get_stock_price(symbol)
                 conn.close()
+
                 return price
             except ConnectionRefusedError:
                 print("Connection refused. Retrying...")
@@ -30,7 +32,7 @@ class StockPriceClient:
         return None
 
 if __name__ == "__main__":
-    symbols = ['TSLA', 'AAPL']
+    symbols = ['TSLA', 'AAPL', 'MSFT']
     client = StockPriceClient()
     print("Getting stock prices from server...")
     while True:
@@ -41,3 +43,4 @@ if __name__ == "__main__":
         start_time = time.time()
         while time.time() - start_time < 10:
             pass
+        print(" ===== END OF WAIT ===== ")

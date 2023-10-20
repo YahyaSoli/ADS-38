@@ -1,18 +1,34 @@
 version: '3'
 services:
   stock-server:
-    image: stock-server
+    build:
+      context: .
+      dockerfile: ./Dockerfile_server
     deploy:
+      mode: replicated
       replicas: 3
+    networks:
+      - mynetwork
 
   stock-client:
-    image: stock-client
-    depends_on:
-      - nginx-load-balancer
-
+    build:
+      context: .
+      dockerfile: ./Dockerfile_client
+    deploy:
+      mode: global
+    networks:
+      - mynetwork
+    
   nginx-load-balancer:
     image: nginx
+    ports:
+      - "8080:80"
     volumes:
       - ./load_balancer:/etc/nginx/conf.d
     depends_on:
       - stock-server
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

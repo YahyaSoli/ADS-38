@@ -16,5 +16,8 @@ COPY server.py /app
 # Install required Python packages
 RUN pip install rpyc yfinance
 
+
 # Run the server script when the container launches
 CMD ["python", "-u", "server.py"]
+
+EXPOSE 8080
