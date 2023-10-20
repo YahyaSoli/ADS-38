@@ -11,7 +11,7 @@ class StockPriceClient:
         
         while attempts < max_attempts and (time.time() - start_time) < max_retry_time:
             try:
-                conn = rpyc.connect("stock-server", 5000)  # Use the service name from docker-compose.yml
+                conn = rpyc.connect("stock-server", 8080)  # Use the service name from docker-compose.yml
                 price = conn.root.get_stock_price(symbol)
                 conn.close()
                 return price
