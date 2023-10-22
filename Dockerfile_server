@@ -14,7 +14,7 @@ WORKDIR /app
 COPY server.py /app
 
 # Install required Python packages
-RUN pip install rpyc yfinance
+RUN pip install rpyc yfinance alpha_vantage
 
 # Run the server script when the container launches
 CMD ["python","-u","server.py"]

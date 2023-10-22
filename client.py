@@ -1,6 +1,4 @@
 import rpyc
-
-import rpyc
 import time
 
 class StockPriceClient:
@@ -9,7 +7,7 @@ class StockPriceClient:
         max_attempts = 5
         while attempts < max_attempts:
             try:
-                conn = rpyc.connect("stock-server", 5000)  # Use the service name from docker-compose.yml
+                conn = rpyc.connect("172.19.0.6", 5000)  # Use the service name from docker-compose.yml
                 price = conn.root.get_stock_price(symbol)
                 conn.close()
                 return price
@@ -24,6 +22,11 @@ if __name__ == "__main__":
     symbols = ['TSLA', 'IBM', 'AAPL', 'GOOGL', 'AMZN', 'NFLX', 'MCD', 'DIS']
     client = StockPriceClient()
     print("Getting stock prices from server...")
-    for symbol in symbols:
+    for index, symbol in enumerate(symbols):
+        if index == 0:
+            t_start = time.perf_counter()
         price = client.get_stock_price(symbol)
         print(price)
+        if index == 7:
+            t_stop = time.perf_counter()
+    print("Elapsed time:", t_stop - t_start)

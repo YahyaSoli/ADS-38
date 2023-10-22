@@ -1,18 +1,48 @@
 version: '3'
 services:
-  stock-server:
+  stock-server-1:
     image: stock-server
-    deploy:
-      replicas: 3
+    networks:
+      stock-network:
+        ipv4_address: 172.19.0.2
+  
+  stock-server-2:
+    image: stock-server
+    networks:
+      stock-network:
+        ipv4_address: 172.19.0.3
+
+  stock-server-3:
+    image: stock-server
+    networks:
+      stock-network:
+        ipv4_address: 172.19.0.4
 
   stock-client:
     image: stock-client
+    # deploy:
+    #   replicas: 3
+    networks:
+      - stock-network
     depends_on:
       - nginx-load-balancer
 
   nginx-load-balancer:
     image: nginx
     volumes:
-      - ./load_balancer:/etc/nginx/conf.d
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      stock-network:
+        ipv4_address: 172.19.0.6
     depends_on:
-      - stock-server
+      - stock-server-1
+      - stock-server-2
+      - stock-server-3
+
+networks:
+  stock-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+          gateway: 172.19.0.1
